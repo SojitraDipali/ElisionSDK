@@ -65,6 +65,25 @@ public class Native_Ads {
         }
     }
 
+    public void Native_Ad1(final ViewGroup viewGroup) {
+        new Native_Ads_Static(context).Native_Ads1(viewGroup);
+        if (preference.get_Adstyle().equalsIgnoreCase("Normal")) {
+            Admob_Native_Ads1(viewGroup);
+        } else if (preference.get_Adstyle().equalsIgnoreCase("ALT")) {
+            if (Constant.Alt_Cnt_Native == 2) {
+                Admob_Native_Ads1(viewGroup);
+                Constant.Alt_Cnt_Native = 1;
+            } else {
+                Facebook_Native_Ads1(viewGroup);
+                Constant.Alt_Cnt_Native++;
+            }
+        } else if (preference.get_Adstyle().equalsIgnoreCase("multiple")) {
+            Admob_FB_Multiple_Native_Ads1(viewGroup);
+        } else if (preference.get_Adstyle().equalsIgnoreCase("fb")) {
+            Facebook_Native_Ads1(viewGroup);
+        }
+    }
+
     public void Native_Banner_Ads(final ViewGroup viewGroup) {
         new Native_Ads_Static(context).Native_Banner_Ads(viewGroup);
         if (preference.get_Adstyle().equalsIgnoreCase("Normal")) {
@@ -81,6 +100,25 @@ public class Native_Ads {
             Admob_FB_Multiple_Native_Banner_Ads(viewGroup);
         } else if (preference.get_Adstyle().equalsIgnoreCase("fb")) {
             Facebook_Native_Banner_Ads(viewGroup);
+        }
+    }
+
+    public void Native_Banner_Ads1(final ViewGroup viewGroup) {
+        new Native_Ads_Static(context).Native_Banner_Ads1(viewGroup);
+        if (preference.get_Adstyle().equalsIgnoreCase("Normal")) {
+            Admob_Native_Banner_Ads1(viewGroup);
+        } else if (preference.get_Adstyle().equalsIgnoreCase("ALT")) {
+            if (Constant.Alt_Cnt_Native_Banner == 2) {
+                Admob_Native_Banner_Ads1(viewGroup);
+                Constant.Alt_Cnt_Native_Banner = 1;
+            } else {
+                Facebook_Native_Banner_Ads1(viewGroup);
+                Constant.Alt_Cnt_Native_Banner++;
+            }
+        } else if (preference.get_Adstyle().equalsIgnoreCase("multiple")) {
+            Admob_FB_Multiple_Native_Banner_Ads1(viewGroup);
+        } else if (preference.get_Adstyle().equalsIgnoreCase("fb")) {
+            Facebook_Native_Banner_Ads1(viewGroup);
         }
     }
 
@@ -107,6 +145,56 @@ public class Native_Ads {
         if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
             try {
                 View inflate = LayoutInflater.from(context).inflate(R.layout.am_activity_native_ads_temp, viewGroup, false);
+                final TemplateView templateView = inflate.findViewById(R.id.my_template_large);
+                inflate.findViewById(R.id.my_template_small).setVisibility(View.GONE);
+                templateView.setVisibility(View.GONE);
+                AdLoader.Builder builder = new AdLoader.Builder(context, preference.get_Admob_Native_Id1());
+                builder.forNativeAd(nativeAd -> {
+                    NativeTemplateStyle build = new NativeTemplateStyle.Builder().build();
+                    templateView.setVisibility(View.VISIBLE);
+                    templateView.setStyles(build);
+                    templateView.setNativeAd(nativeAd);
+                    Button button = templateView.findViewById(R.id.cta);
+                    String a = preference.getAdbtcolor();
+                    button.setBackgroundColor(Color.parseColor("#" + a));
+                    viewGroup.removeAllViews();
+                    viewGroup.addView(inflate);
+                });
+
+                builder.withAdListener(new AdListener() {
+                    @Override
+                    public void onAdClosed() {
+                        super.onAdClosed();
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        Log.e("TAG", "Admob Fail -> onAdFailedToLoad: Native" + loadAdError.getMessage());
+                        super.onAdFailedToLoad(loadAdError);
+                        templateView.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAdOpened() {
+                        super.onAdOpened();
+                    }
+
+                    @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                        Log.e("TAG", "Admob Load -> onNativeAdLoaded: Native");
+                    }
+                }).build().loadAd(new AdRequest.Builder().build());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void Admob_Native_Ads1(final ViewGroup viewGroup) {
+        if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
+            try {
+                View inflate = LayoutInflater.from(context).inflate(R.layout.am_activity_native_ads_temp1, viewGroup, false);
                 final TemplateView templateView = inflate.findViewById(R.id.my_template_large);
                 inflate.findViewById(R.id.my_template_small).setVisibility(View.GONE);
                 templateView.setVisibility(View.GONE);
@@ -246,10 +334,148 @@ public class Native_Ads {
         }
     }
 
+    private void Admob_FB_Multiple_Native_Ads1(final ViewGroup viewGroup) {
+        final List<String> adUnitIds = Arrays.asList(new AppPreference(context).get_Admob_Native_Id1(),
+                new AppPreference(context).get_Admob_Native_Id2(),
+                new AppPreference(context).get_Admob_Native_Id3());
+        if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
+            try {
+                View inflate = LayoutInflater.from(context).inflate(R.layout.am_activity_native_ads_temp1, viewGroup, false);
+                final TemplateView templateView = inflate.findViewById(R.id.my_template_large);
+                inflate.findViewById(R.id.my_template_small).setVisibility(View.GONE);
+                if (Constant.NAtiveAdCounter > 2) {
+                    Constant.NAtiveAdCounter = 0;
+                }
+                templateView.setVisibility(View.GONE);
+                AdLoader.Builder builder = new AdLoader.Builder(context, adUnitIds.get(Constant.NAtiveAdCounter));
+                Log.e("NAtiveAdCounter out", String.valueOf(Constant.NAtiveAdCounter));
+
+                builder.forNativeAd(nativeAd -> {
+                    Constant.NAtiveAdCounter++;
+                    Log.e("NAtiveAdCounter", String.valueOf(Constant.NAtiveAdCounter));
+                    NativeTemplateStyle build = new NativeTemplateStyle.Builder().build();
+                    templateView.setVisibility(View.VISIBLE);
+                    templateView.setStyles(build);
+                    templateView.setNativeAd(nativeAd);
+                    Button button = templateView.findViewById(R.id.cta);
+                    String a = preference.getAdbtcolor();
+                    button.setBackgroundColor(Color.parseColor("#" + a));
+                    viewGroup.removeAllViews();
+                    viewGroup.addView(inflate);
+                });
+
+                builder.withAdListener(new AdListener() {
+                    @Override
+                    public void onAdClosed() {
+                        super.onAdClosed();
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        Log.e("TAG", "Admob Fail -> onAdFailedToLoad: Native" + loadAdError.getMessage());
+                        super.onAdFailedToLoad(loadAdError);
+                        templateView.setVisibility(View.GONE);
+                        final NativeAd nativeAd = new NativeAd(context, preference.get_Facebook_Native());
+                        NativeAdListener nativeAdListener = new NativeAdListener() {
+                            @Override
+                            public void onMediaDownloaded(Ad ad) {
+                            }
+
+                            @Override
+                            public void onError(Ad ad, AdError adError) {
+                                Log.e("TAG", " Facebook Native_Ads  onAdFailedToLoad  " + adError.getErrorCode());
+                                templateView.setVisibility(View.GONE);
+                                Qureka_Predchamp_Native(viewGroup);
+                            }
+
+                            @Override
+                            public void onAdLoaded(Ad ad) {
+                                View adView = NativeAdView.render(context, nativeAd, NativeAdView.Type.HEIGHT_300);
+                                viewGroup.removeAllViews();
+                                viewGroup.addView(adView);
+                                viewGroup.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onAdClicked(Ad ad) {
+                            }
+
+                            @Override
+                            public void onLoggingImpression(Ad ad) {
+                            }
+                        };
+                        nativeAd.loadAd(
+                                nativeAd.buildLoadAdConfig()
+                                        .withAdListener(nativeAdListener)
+                                        .build());
+                    }
+
+                    @Override
+                    public void onAdOpened() {
+                        super.onAdOpened();
+                    }
+
+                    @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                        Log.e("TAG", "Admob Load -> onNativeAdLoaded: Native");
+                    }
+                }).build().loadAd(new AdRequest.Builder().build());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void Facebook_Native_Ads(final ViewGroup viewGroup) {
         if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
             try {
                 View inflate = LayoutInflater.from(context).inflate(R.layout.am_activity_native_ads_temp, viewGroup, false);
+                final TemplateView templateView = inflate.findViewById(R.id.my_template_large);
+                inflate.findViewById(R.id.my_template_small).setVisibility(View.GONE);
+                templateView.setVisibility(View.GONE);
+                final NativeAd nativeAd = new NativeAd(context, preference.get_Facebook_Native());
+                NativeAdListener nativeAdListener = new NativeAdListener() {
+                    @Override
+                    public void onMediaDownloaded(Ad ad) {
+                    }
+
+                    @Override
+                    public void onError(Ad ad, AdError adError) {
+                        Log.e("TAG", " Facebook Native_Ads  onAdFailedToLoad  " + adError.getErrorCode());
+                        templateView.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAdLoaded(Ad ad) {
+                        View adView = NativeAdView.render(context, nativeAd, NativeAdView.Type.HEIGHT_300);
+                        viewGroup.removeAllViews();
+                        viewGroup.addView(adView);
+                        viewGroup.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAdClicked(Ad ad) {
+                    }
+
+                    @Override
+                    public void onLoggingImpression(Ad ad) {
+                    }
+                };
+                nativeAd.loadAd(
+                        nativeAd.buildLoadAdConfig()
+                                .withAdListener(nativeAdListener)
+                                .build());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void Facebook_Native_Ads1(final ViewGroup viewGroup) {
+        if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
+            try {
+                View inflate = LayoutInflater.from(context).inflate(R.layout.am_activity_native_ads_temp1, viewGroup, false);
                 final TemplateView templateView = inflate.findViewById(R.id.my_template_large);
                 inflate.findViewById(R.id.my_template_small).setVisibility(View.GONE);
                 templateView.setVisibility(View.GONE);
@@ -527,8 +753,6 @@ public class Native_Ads {
             } else {
                 new Native_Ads_Static(context).Native_Banner_Ads(BannerContainer);
             }
-
-
         }
     }
 
@@ -579,6 +803,58 @@ public class Native_Ads {
                     templateView.setVisibility(View.VISIBLE);
                     templateView.setStyles(build);
                     templateView.setNativeAd(nativeAd);
+                    Button button = templateView.findViewById(R.id.cta);
+                    String a = preference.getAdbtcolor();
+                    button.setBackgroundColor(Color.parseColor("#" + a));
+                    viewGroup.removeAllViews();
+                    viewGroup.addView(inflate);
+                });
+
+                builder.withAdListener(new AdListener() {
+                    @Override
+                    public void onAdClosed() {
+                        super.onAdClosed();
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        super.onAdFailedToLoad(loadAdError);
+                    }
+
+                    @Override
+                    public void onAdOpened() {
+                        super.onAdOpened();
+                    }
+
+                    @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                    }
+                }).build().loadAd(new AdRequest.Builder().build());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Qureka_Predchamp_Native_Banner(viewGroup);
+        }
+    }
+
+    private void Admob_Native_Banner_Ads1(final ViewGroup viewGroup) {
+        if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
+            try {
+                View inflate = LayoutInflater.from(context).inflate(R.layout.am_activity_native_ads_temp1, viewGroup, false);
+                final TemplateView templateView = inflate.findViewById(R.id.my_template_small);
+                inflate.findViewById(R.id.my_template_small).setVisibility(View.GONE);
+                templateView.setVisibility(View.GONE);
+                AdLoader.Builder builder = new AdLoader.Builder(context, preference.get_Admob_Native_Id1());
+                builder.forNativeAd(nativeAd -> {
+                    NativeTemplateStyle build = new NativeTemplateStyle.Builder().build();
+                    templateView.setVisibility(View.VISIBLE);
+                    templateView.setStyles(build);
+                    templateView.setNativeAd(nativeAd);
+                    Button button = templateView.findViewById(R.id.cta);
+                    String a = preference.getAdbtcolor();
+                    button.setBackgroundColor(Color.parseColor("#" + a));
                     viewGroup.removeAllViews();
                     viewGroup.addView(inflate);
                 });
@@ -634,6 +910,113 @@ public class Native_Ads {
                     templateView.setVisibility(View.VISIBLE);
                     templateView.setStyles(build);
                     templateView.setNativeAd(nativeAd);
+                    Button button = templateView.findViewById(R.id.cta);
+                    String a = preference.getAdbtcolor();
+                    button.setBackgroundColor(Color.parseColor("#" + a));
+                    viewGroup.removeAllViews();
+                    viewGroup.addView(inflate);
+                });
+
+                builder.withAdListener(new AdListener() {
+                    @Override
+                    public void onAdClosed() {
+                        super.onAdClosed();
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        super.onAdFailedToLoad(loadAdError);
+                        NativeBannerAd nativeBannerAd = new NativeBannerAd(context, preference.get_Facebook_Native());
+                        NativeAdListener nativeAdListener = new NativeAdListener() {
+
+                            @Override
+                            public void onMediaDownloaded(Ad ad) {
+                                // Native ad finished downloading all assets
+                                Log.e(TAG, "Native ad finished downloading all assets.");
+                            }
+
+                            @Override
+                            public void onError(Ad ad, AdError adError) {
+                                // Native ad failed to load
+                                Log.e(TAG, "Native ad failed to load: " + adError.getErrorMessage());
+                                Qureka_Predchamp_Native_Banner(viewGroup);
+                            }
+
+                            @Override
+                            public void onAdLoaded(Ad ad) {
+                                // Native ad is loaded and ready to be displayed
+                                Log.d(TAG, "Native ad is loaded and ready to be displayed!");
+                                try {
+                                    View adView = NativeBannerAdView.render(context, nativeBannerAd, NativeBannerAdView.Type.HEIGHT_100);
+                                    viewGroup.removeAllViews();
+                                    viewGroup.addView(adView);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onAdClicked(Ad ad) {
+                                // Native ad clicked
+                                Log.d(TAG, "Native ad clicked!");
+                            }
+
+                            @Override
+                            public void onLoggingImpression(Ad ad) {
+                                // Native ad impression
+                                Log.d(TAG, "Native ad impression logged!");
+                            }
+                        };
+                        // load the ad
+                        nativeBannerAd.loadAd(
+                                nativeBannerAd.buildLoadAdConfig()
+                                        .withAdListener(nativeAdListener)
+                                        .build());
+                    }
+
+                    @Override
+                    public void onAdOpened() {
+                        super.onAdOpened();
+                    }
+
+                    @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                    }
+                }).build().loadAd(new AdRequest.Builder().build());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Qureka_Predchamp_Native_Banner(viewGroup);
+        }
+    }
+
+    private void Admob_FB_Multiple_Native_Banner_Ads1(final ViewGroup viewGroup) {
+        final List<String> adUnitIds = Arrays.asList(new AppPreference(context).get_Admob_Native_Id1(),
+                new AppPreference(context).get_Admob_Native_Id2(),
+                new AppPreference(context).get_Admob_Native_Id3());
+        if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
+            try {
+                if (Constant.NAtiveBannerAdCounter > 2) {
+                    Constant.NAtiveBannerAdCounter = 0;
+                }
+                View inflate = LayoutInflater.from(context).inflate(R.layout.am_activity_native_ads_temp1, viewGroup, false);
+                final TemplateView templateView = inflate.findViewById(R.id.my_template_small);
+                inflate.findViewById(R.id.my_template_small).setVisibility(View.GONE);
+                templateView.setVisibility(View.GONE);
+                AdLoader.Builder builder = new AdLoader.Builder(context, adUnitIds.get(Constant.NAtiveBannerAdCounter));
+                Log.e("NAtivBanerAdCounter out", String.valueOf(Constant.NAtiveBannerAdCounter));
+                builder.forNativeAd(nativeAd -> {
+                    NativeTemplateStyle build = new NativeTemplateStyle.Builder().build();
+                    Constant.NAtiveBannerAdCounter++;
+                    Log.e("NAtivBanerAdCounter", String.valueOf(Constant.NAtiveBannerAdCounter));
+                    templateView.setVisibility(View.VISIBLE);
+                    templateView.setStyles(build);
+                    templateView.setNativeAd(nativeAd);
+                    Button button = templateView.findViewById(R.id.cta);
+                    String a = preference.getAdbtcolor();
+                    button.setBackgroundColor(Color.parseColor("#" + a));
                     viewGroup.removeAllViews();
                     viewGroup.addView(inflate);
                 });
@@ -717,6 +1100,66 @@ public class Native_Ads {
         if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
             try {
                 View inflate = LayoutInflater.from(context).inflate(R.layout.am_activity_native_ads_temp, viewGroup, false);
+                final TemplateView templateView = inflate.findViewById(R.id.my_template_small);
+                inflate.findViewById(R.id.my_template_small).setVisibility(View.GONE);
+                templateView.setVisibility(View.GONE);
+
+                NativeBannerAd nativeBannerAd = new NativeBannerAd(context, preference.get_Facebook_Native());
+                NativeAdListener nativeAdListener = new NativeAdListener() {
+
+                    @Override
+                    public void onMediaDownloaded(Ad ad) {
+                        // Native ad finished downloading all assets
+                        Log.e(TAG, "Native ad finished downloading all assets.");
+                    }
+
+                    @Override
+                    public void onError(Ad ad, AdError adError) {
+                        // Native ad failed to load
+                        Log.e(TAG, "Native ad failed to load: " + adError.getErrorMessage());
+                    }
+
+                    @Override
+                    public void onAdLoaded(Ad ad) {
+                        // Native ad is loaded and ready to be displayed
+                        Log.d(TAG, "Native ad is loaded and ready to be displayed!");
+                        try {
+                            View adView = NativeBannerAdView.render(context, nativeBannerAd, NativeBannerAdView.Type.HEIGHT_100);
+                            viewGroup.removeAllViews();
+                            viewGroup.addView(adView);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onAdClicked(Ad ad) {
+                        // Native ad clicked
+                        Log.d(TAG, "Native ad clicked!");
+                    }
+
+                    @Override
+                    public void onLoggingImpression(Ad ad) {
+                        // Native ad impression
+                        Log.d(TAG, "Native ad impression logged!");
+                    }
+                };
+                // load the ad
+                nativeBannerAd.loadAd(
+                        nativeBannerAd.buildLoadAdConfig()
+                                .withAdListener(nativeAdListener)
+                                .build());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void Facebook_Native_Banner_Ads1(final ViewGroup viewGroup) {
+        if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
+            try {
+                View inflate = LayoutInflater.from(context).inflate(R.layout.am_activity_native_ads_temp1, viewGroup, false);
                 final TemplateView templateView = inflate.findViewById(R.id.my_template_small);
                 inflate.findViewById(R.id.my_template_small).setVisibility(View.GONE);
                 templateView.setVisibility(View.GONE);

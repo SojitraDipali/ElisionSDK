@@ -24,48 +24,15 @@ import javax.crypto.spec.PBEParameterSpec;
  */
 public class CryptoUtil {
 
-    Cipher ecipher;
     Cipher dcipher;
-    // 8-byte Salt
     byte[] salt = {
             (byte) 0xA9, (byte) 0x9B, (byte) 0xC8, (byte) 0x32,
             (byte) 0x56, (byte) 0x35, (byte) 0xE3, (byte) 0x03
     };
-    // Iteration count
     int iterationCount = 19;
 
     public CryptoUtil() {
 
-    }
-
-    public String encrypt(String secretKey, String plainText)
-            throws NoSuchAlgorithmException,
-            InvalidKeySpecException,
-            NoSuchPaddingException,
-            InvalidKeyException,
-            InvalidAlgorithmParameterException,
-            UnsupportedEncodingException,
-            IllegalBlockSizeException,
-            BadPaddingException {
-        //Key generation for enc and desc
-        KeySpec keySpec = new PBEKeySpec(secretKey.toCharArray(), salt, iterationCount);
-        SecretKey key = SecretKeyFactory.getInstance("PBEWithMD5AndDES").generateSecret(keySpec);
-        // Prepare the parameter to the ciphers
-        AlgorithmParameterSpec paramSpec = new PBEParameterSpec(salt, iterationCount);
-
-        //Enc process
-        ecipher = Cipher.getInstance(key.getAlgorithm());
-        ecipher.init(Cipher.ENCRYPT_MODE, key, paramSpec);
-        String charSet = "UTF-8";
-        byte[] in = plainText.getBytes(charSet);
-        byte[] out = ecipher.doFinal(in);
-        String encStr;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            encStr = new String(Base64.getEncoder().encode(out));
-        } else {
-            encStr = android.util.Base64.encodeToString(out, android.util.Base64.DEFAULT);
-        }
-        return encStr;
     }
 
     public String decrypt(String secretKey, String encryptedText)
@@ -95,16 +62,5 @@ public class CryptoUtil {
         byte[] utf8 = dcipher.doFinal(enc);
         String charSet = "UTF-8";
         return new String(utf8, charSet);
-    }
-
-    public static void main(String[] args) throws Exception {
-        CryptoUtil cryptoUtil = new CryptoUtil();
-        String key = "ezeon8547";
-        String plain = "This is an important message";
-        String enc = cryptoUtil.encrypt(key, plain);
-        System.out.println("Original text: " + plain);
-        System.out.println("Encrypted text: " + enc);
-        String plainAfter = cryptoUtil.decrypt(key, enc);
-        System.out.println("Original text after decryption: " + plainAfter);
     }
 }

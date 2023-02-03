@@ -22,8 +22,24 @@ public class Native_Ads_Static {
         viewGroup.addView(view);
     }
 
+    public void Native_Ads1(ViewGroup viewGroup) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_static_native_ads1, null);
+        viewGroup.removeAllViews();
+        ShimmerFrameLayout shimmerContainer = view.findViewById(R.id.shimmer_view_container);
+        shimmerContainer.startShimmer();
+        viewGroup.addView(view);
+    }
+
     public void Native_Banner_Ads(ViewGroup viewGroup) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_static_native_banner_ads, null);
+        viewGroup.removeAllViews();
+        ShimmerFrameLayout shimmerContainer = view.findViewById(R.id.shimmer_view_container);
+        shimmerContainer.startShimmer();
+        viewGroup.addView(view);
+    }
+
+    public void Native_Banner_Ads1(ViewGroup viewGroup) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_static_native_banner_ads1, null);
         viewGroup.removeAllViews();
         ShimmerFrameLayout shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         shimmerContainer.startShimmer();
