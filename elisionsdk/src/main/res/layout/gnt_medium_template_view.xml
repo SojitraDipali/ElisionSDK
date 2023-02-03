@@ -54,8 +54,8 @@
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginLeft="3dp"
                     android:scaleType="fitCenter" />
 
                 <LinearLayout
@@ -127,20 +127,27 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
-            <Button
-                android:id="@+id/cta"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@drawable/ads_button"
-                android:gravity="center"
-                android:lines="1"
-                android:textColor="#FFFFFF"
-                android:textSize="17sp" />
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="3dp"
+                app:cardCornerRadius="5dp">
 
+                <Button
+                    android:id="@+id/cta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ads_button"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp" />
+
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
     </com.google.android.gms.ads.nativead.NativeAdView>

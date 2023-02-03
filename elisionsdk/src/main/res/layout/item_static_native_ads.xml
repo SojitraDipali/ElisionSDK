@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="#363D3D3D">
+    android:layout_margin="3dp"
+    android:backgroundTint="#363D3D3D"
+    android:padding="2dp"
+    shimmer:cardCornerRadius="10dp"
+    shimmer:cardElevation="0dp">
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
@@ -26,7 +29,7 @@
                 <ImageView
                     android:id="@+id/media_view"
                     android:layout_width="match_parent"
-                    android:layout_height="185dp"
+                    android:layout_height="179dp"
                     android:layout_margin="5dp"
                     android:background="#BFFAF8F8"
                     android:minHeight="185dp" />
@@ -143,4 +146,4 @@
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
-</RelativeLayout>
+</androidx.cardview.widget.CardView>
