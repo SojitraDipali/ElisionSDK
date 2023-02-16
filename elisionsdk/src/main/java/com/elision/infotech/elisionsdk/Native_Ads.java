@@ -825,6 +825,8 @@ public class Native_Ads {
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         super.onAdFailedToLoad(loadAdError);
+                        templateView.setVisibility(View.GONE);
+                        Qureka_Predchamp_Native_Banner(viewGroup);
                     }
 
                     @Override
@@ -947,6 +949,7 @@ public class Native_Ads {
                             public void onError(Ad ad, AdError adError) {
                                 // Native ad failed to load
                                 Log.e(TAG, "Native ad failed to load: " + adError.getErrorMessage());
+                                templateView.setVisibility(View.GONE);
                                 Qureka_Predchamp_Native_Banner(viewGroup);
                             }
 
