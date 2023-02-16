@@ -134,6 +134,7 @@ public class Native_Ads {
                         Log.e("TAG", "Admob Fail -> onAdFailedToLoad: Native" + loadAdError.getMessage());
                         super.onAdFailedToLoad(loadAdError);
                         templateView.setVisibility(View.GONE);
+                        Qureka_Predchamp_Native(viewGroup);
                     }
 
                     @Override
@@ -263,6 +264,7 @@ public class Native_Ads {
                     public void onError(Ad ad, AdError adError) {
                         Log.e("TAG", " Facebook Native_Ads  onAdFailedToLoad  " + adError.getErrorCode());
                         templateView.setVisibility(View.GONE);
+                        Qureka_Predchamp_Native(viewGroup);
                     }
 
                     @Override
@@ -309,6 +311,7 @@ public class Native_Ads {
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         Log.e("TAG", "Admob  Fail -> onAdFailedToLoad: Banner" + loadAdError.getMessage());
                         super.onAdFailedToLoad(loadAdError);
+                        Qureka_Predchamp_Adaptive(viewGroup);
                     }
 
                     @Override
@@ -447,6 +450,7 @@ public class Native_Ads {
                     @Override
                     public void onError(Ad ad, AdError adError) {
                         Log.e("TAG", " Facebook Adaptive_Banner  onAdFailedToLoad  " + adError.getErrorCode());
+                        Qureka_Predchamp_Adaptive(viewGroup);
                     }
 
                     @Override
@@ -592,6 +596,9 @@ public class Native_Ads {
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         super.onAdFailedToLoad(loadAdError);
+                        templateView.setVisibility(View.GONE);
+                        Qureka_Predchamp_Native_Banner(viewGroup);
+
                     }
 
                     @Override
@@ -660,6 +667,7 @@ public class Native_Ads {
                             public void onError(Ad ad, AdError adError) {
                                 // Native ad failed to load
                                 Log.e(TAG, "Native ad failed to load: " + adError.getErrorMessage());
+                                templateView.setVisibility(View.GONE);
                                 Qureka_Predchamp_Native_Banner(viewGroup);
                             }
 
@@ -734,6 +742,8 @@ public class Native_Ads {
                     public void onError(Ad ad, AdError adError) {
                         // Native ad failed to load
                         Log.e(TAG, "Native ad failed to load: " + adError.getErrorMessage());
+                        templateView.setVisibility(View.GONE);
+                        Qureka_Predchamp_Native_Banner(viewGroup);
                     }
 
                     @Override
