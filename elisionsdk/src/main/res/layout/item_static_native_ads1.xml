@@ -29,7 +29,7 @@
                 <ImageView
                     android:id="@+id/media_view"
                     android:layout_width="match_parent"
-                    android:layout_height="179dp"
+                    android:layout_height="90dp"
                     android:layout_margin="5dp"
                     android:background="#BFFAF8F8"
                     android:minHeight="185dp" />
@@ -146,4 +146,5 @@
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
+
 </androidx.cardview.widget.CardView>

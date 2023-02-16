@@ -2,11 +2,8 @@ package com.elision.infotech.elisionsdk;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +13,7 @@ import java.util.Random;
 
 public class Interstitial_Qureka_Predchamp {
 
-    public static void Show_Qureka_Predchamp_Ads(Activity source_class, Intent intent, final boolean flag) {
+    public static void Show_Qureka_Predchamp_Ads(Activity source_class, Interstitial_Ads.AdCloseListener adCloseListener) {
         AppPreference preference = new AppPreference(source_class);
         if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
             if (preference.get_Qureka_Flag().equalsIgnoreCase("qureka")) {
@@ -33,11 +30,8 @@ public class Interstitial_Qureka_Predchamp {
                 ((TextView) dialog.findViewById(R.id.txt_title)).setText(Constant.qureka_header[i1]);
                 ((TextView) dialog.findViewById(R.id.txt_description)).setText(Constant.qureka_description[i1]);
                 dialog.setOnDismissListener(dialog1 -> {
-                    if (flag) {
-                        source_class.startActivity(intent);
-                        source_class.finish();
-                    } else {
-                        source_class.startActivity(intent);
+                    if (adCloseListener != null) {
+                        adCloseListener.onAdClosed();
                     }
                 });
                 dialog.findViewById(R.id.img_close).setOnClickListener(v -> dialog.dismiss());
@@ -57,30 +51,21 @@ public class Interstitial_Qureka_Predchamp {
                 ((TextView) dialog.findViewById(R.id.txt_title)).setText(Constant.predchamp_header[i1]);
                 ((TextView) dialog.findViewById(R.id.txt_description)).setText(Constant.predchamp_description[i1]);
                 dialog.setOnDismissListener(dialog12 -> {
-                    if (flag) {
-                        source_class.startActivity(intent);
-                        source_class.finish();
-                    } else {
-                        source_class.startActivity(intent);
+                    if (adCloseListener != null) {
+                        adCloseListener.onAdClosed();
                     }
                 });
                 dialog.findViewById(R.id.img_close).setOnClickListener(v -> dialog.dismiss());
                 dialog.findViewById(R.id.btn_install).setOnClickListener(v -> Constant.Open_Qureka(source_class));
                 dialog.show();
             } else {
-                if (flag) {
-                    source_class.startActivity(intent);
-                    source_class.finish();
-                } else {
-                    source_class.startActivity(intent);
+                if (adCloseListener != null) {
+                    adCloseListener.onAdClosed();
                 }
             }
         } else {
-            if (flag) {
-                source_class.startActivity(intent);
-                source_class.finish();
-            } else {
-                source_class.startActivity(intent);
+            if (adCloseListener != null) {
+                adCloseListener.onAdClosed();
             }
         }
     }

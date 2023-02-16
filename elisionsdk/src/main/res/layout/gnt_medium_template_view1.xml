@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:backgroundTint="#363D3D3D"
-    android:padding="2dp"
-    shimmer:cardCornerRadius="10dp"
-    shimmer:cardElevation="0dp">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container"
+    <com.google.android.gms.ads.nativead.NativeAdView
+        android:id="@+id/native_ad_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        shimmer:duration="1000">
+        android:layout_margin="3dp"
+        android:background="@drawable/ads_stroke"
+        android:minHeight="150dp"
+        android:padding="2dp">
 
         <LinearLayout
             android:id="@+id/background"
@@ -26,21 +22,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <com.google.android.gms.ads.nativead.MediaView
                     android:id="@+id/media_view"
                     android:layout_width="match_parent"
-                    android:layout_height="179dp"
-                    android:layout_margin="5dp"
-                    android:background="#BFFAF8F8"
-                    android:minHeight="185dp" />
+                    android:layout_height="90dp"
+                    android:minHeight="90dp" />
 
                 <TextView
-                    android:layout_width="23dp"
-                    android:layout_height="17dp"
-                    android:background="#34EFEDED"
+                    android:layout_width="20dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/ads_corner"
                     android:gravity="center"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:text="Ad"
+                    android:textColor="#ffffff"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </FrameLayout>
 
@@ -55,9 +54,8 @@
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="#BFFAF8F8"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginLeft="3dp"
                     android:scaleType="fitCenter" />
 
                 <LinearLayout
@@ -78,6 +76,7 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textAllCaps="false"
+                        android:textColor="#0A0A0A"
                         android:textSize="15dp"
                         android:textStyle="bold" />
 
@@ -101,16 +100,15 @@
 
                         <TextView
                             android:id="@+id/secondary"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginEnd="5dp"
-                            android:background="#BFFAF8F8"
                             android:gravity="center"
                             android:hint=""
                             android:lines="1"
                             android:maxLines="1"
                             android:singleLine="true"
+                            android:textColor="#4B4A4A"
                             android:textSize="12sp" />
 
                     </LinearLayout>
@@ -121,7 +119,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="1dp"
-                        android:background="#34EFEDED"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:text=""
@@ -130,20 +127,30 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/cta"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="#BFFAF8F8"
-                android:gravity="center"
-                android:lines="1"
-                android:textSize="17sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="3dp"
+                app:cardCornerRadius="5dp">
+
+                <Button
+                    android:id="@+id/cta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ads_button"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp" />
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
-</androidx.cardview.widget.CardView>
+    </com.google.android.gms.ads.nativead.NativeAdView>
+
+</merge>
