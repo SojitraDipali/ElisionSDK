@@ -22,9 +22,6 @@ public class Interstitial_Ads_Admob_Fb {
         AppPreference preference = new AppPreference(source_class);
         if (preference.get_Ad_Status().equalsIgnoreCase("on")) {
             Constant.Front_Counter++;
-            if (Constant.Front_Counter > 2) {
-                Constant.Front_Counter = 0;
-            }
             final CustomProgressDialog customProgressDialog = new CustomProgressDialog(source_class, "Showing Ad...");
             customProgressDialog.setCancelable(false);
             customProgressDialog.show();
