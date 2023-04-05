@@ -1,7 +1,6 @@
 package com.elision.infotech.elisionsdk;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
@@ -32,10 +31,12 @@ public class Interstitial_Ads_Fb_Admob {
                             .withAdListener(new InterstitialAdListener() {
                                 @Override
                                 public void onInterstitialDisplayed(Ad ad) {
+                                    AppPreference.isFullScreenShow = true;
                                 }
 
                                 @Override
                                 public void onInterstitialDismissed(Ad ad) {
+                                    AppPreference.isFullScreenShow = false;
                                     if (customProgressDialog.isShowing()) {
                                         customProgressDialog.dismiss();
                                     }
@@ -48,6 +49,7 @@ public class Interstitial_Ads_Fb_Admob {
 
                                 @Override
                                 public void onError(Ad ad, com.facebook.ads.AdError adError) {
+                                    AppPreference.isFullScreenShow = false;
                                     Log.e("TAG", "onError: " + adError.getErrorCode());
                                     AdRequest adRequest = new AdRequest.Builder().build();
                                     InterstitialAd.load(source_class, preference.get_Admob_Interstitial_Id1(), adRequest, new InterstitialAdLoadCallback() {
@@ -66,6 +68,7 @@ public class Interstitial_Ads_Fb_Admob {
                                                     if (adCloseListener != null) {
                                                         adCloseListener.onAdClosed();
                                                     }
+                                                    AppPreference.isFullScreenShow = false;
                                                     Constant.IS_TIME_INTERVAL = false;
                                                     new Handler().postDelayed(() -> Constant.IS_TIME_INTERVAL = true, Long.parseLong(String.valueOf(preference.get_Ad_Time_Interval())) * 1000);
                                                 }
@@ -74,6 +77,7 @@ public class Interstitial_Ads_Fb_Admob {
                                                 public void onAdShowedFullScreenContent() {
                                                     super.onAdShowedFullScreenContent();
                                                     mInterstitialAd_admob = null;
+                                                    AppPreference.isFullScreenShow = true;
                                                 }
 
                                                 @Override
@@ -85,6 +89,8 @@ public class Interstitial_Ads_Fb_Admob {
                                                     if (adCloseListener != null) {
                                                         adCloseListener.onAdClosed();
                                                     }
+                                                    AppPreference.isFullScreenShow = false;
+
                                                     Constant.IS_TIME_INTERVAL = false;
                                                     new Handler().postDelayed(() -> Constant.IS_TIME_INTERVAL = true, Long.parseLong(String.valueOf(preference.get_Ad_Time_Interval())) * 1000);
                                                 }
@@ -102,6 +108,7 @@ public class Interstitial_Ads_Fb_Admob {
                                             if (customProgressDialog.isShowing()) {
                                                 customProgressDialog.dismiss();
                                             }
+                                            AppPreference.isFullScreenShow = false;
                                             Interstitial_Qureka_Predchamp.Show_Qureka_Predchamp_Ads(source_class, adCloseListener);
                                             Constant.IS_TIME_INTERVAL = false;
                                             new Handler().postDelayed(() -> Constant.IS_TIME_INTERVAL = true, Long.parseLong(String.valueOf(preference.get_Ad_Time_Interval())) * 1000);

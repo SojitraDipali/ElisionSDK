@@ -1,7 +1,8 @@
 package com.elision.infotech.elisionsdk;
 
+import static com.elision.infotech.elisionsdk.AppPreference.isFullScreenShow;
+
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
@@ -24,10 +25,12 @@ public class Interstitial_Ads_Facebook {
                             .withAdListener(new InterstitialAdListener() {
                                 @Override
                                 public void onInterstitialDisplayed(Ad ad) {
+                                    isFullScreenShow = true;
                                 }
 
                                 @Override
                                 public void onInterstitialDismissed(Ad ad) {
+                                    isFullScreenShow = false;
                                     if (customProgressDialog.isShowing()) {
                                         customProgressDialog.dismiss();
                                     }
@@ -40,6 +43,7 @@ public class Interstitial_Ads_Facebook {
 
                                 @Override
                                 public void onError(Ad ad, AdError adError) {
+                                    isFullScreenShow = false;
                                     Log.e("TAG", "onError: " + adError.getErrorCode());
                                     if (customProgressDialog.isShowing()) {
                                         customProgressDialog.dismiss();

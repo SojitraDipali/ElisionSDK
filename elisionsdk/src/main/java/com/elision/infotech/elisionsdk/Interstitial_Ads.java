@@ -1,19 +1,6 @@
 package com.elision.infotech.elisionsdk;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.InterstitialAdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 public class Interstitial_Ads {
 

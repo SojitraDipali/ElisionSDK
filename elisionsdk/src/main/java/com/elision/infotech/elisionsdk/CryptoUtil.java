@@ -1,7 +1,6 @@
 package com.elision.infotech.elisionsdk;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

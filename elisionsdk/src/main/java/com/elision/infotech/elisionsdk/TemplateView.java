@@ -2,17 +2,21 @@ package com.elision.infotech.elisionsdk;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -29,10 +33,10 @@ public class TemplateView extends FrameLayout {
     private NativeTemplateStyle styles;
     private NativeAd nativeAd;
     private NativeAdView nativeAdView;
-    private android.widget.TextView primaryView;
-    private android.widget.TextView secondaryView;
+    private TextView primaryView;
+    private TextView secondaryView;
     private RatingBar ratingBar;
-    private android.widget.TextView tertiaryView;
+    private TextView tertiaryView;
     private ImageView iconView;
     private MediaView mediaView;
     private Button callToActionView;
@@ -227,7 +231,10 @@ public class TemplateView extends FrameLayout {
             tertiaryView.setText(body);
             nativeAdView.setBodyView(tertiaryView);
         }
-
+        updateBg();
+        updateTextColor(primaryView);
+        updateTextColor(tertiaryView);
+        updateTextColor(secondaryView);
         nativeAdView.setNativeAd(nativeAd);
     }
 
@@ -280,6 +287,26 @@ public class TemplateView extends FrameLayout {
         iconView = findViewById(R.id.icon);
         mediaView = findViewById(R.id.media_view);
         background = findViewById(R.id.background);
-
     }
+
+    public void updateTextColor(View child) {
+        String b = new AppPreference(getContext()).getTextColor();
+        if (child instanceof TextView) {
+            ((TextView) child).setTextColor(Color.parseColor("#" + b));
+        }
+    }
+
+    public void updateBg() {
+        AppPreference preference = new AppPreference(getContext());
+        String c = preference.getBackColor();
+        if (!TextUtils.isEmpty(c)) {
+            nativeAdView.getBackground().setColorFilter(Color.parseColor("#" + c), PorterDuff.Mode.SRC_ATOP);
+        }
+
+        String a = preference.getAdbtcolor();
+        if (!TextUtils.isEmpty(a)) {
+            callToActionView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#" + a)));
+        }
+    }
+
 }

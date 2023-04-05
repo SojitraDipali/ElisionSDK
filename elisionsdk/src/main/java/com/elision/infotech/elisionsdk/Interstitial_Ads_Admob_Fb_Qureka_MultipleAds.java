@@ -1,7 +1,8 @@
 package com.elision.infotech.elisionsdk;
 
+import static com.elision.infotech.elisionsdk.AppPreference.isFullScreenShow;
+
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
@@ -21,7 +22,6 @@ import java.util.List;
 
 public class Interstitial_Ads_Admob_Fb_Qureka_MultipleAds {
     public static InterstitialAd mInterstitialAd_admob;
-
 
     public static void ShowAd_Full(Activity source_class, Interstitial_Ads.AdCloseListener adCloseListener) {
         final List<String> adUnitIds = Arrays.asList(new AppPreference(source_class).get_Admob_Interstitial_Id1(),
@@ -51,6 +51,7 @@ public class Interstitial_Ads_Admob_Fb_Qureka_MultipleAds {
                         public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError adError) {
                             super.onAdFailedToShowFullScreenContent(adError);
                             mInterstitialAd_admob = null;
+                            isFullScreenShow = false;
                             if (customProgressDialog.isShowing()) {
                                 customProgressDialog.dismiss();
                             }
@@ -65,6 +66,7 @@ public class Interstitial_Ads_Admob_Fb_Qureka_MultipleAds {
                         public void onAdShowedFullScreenContent() {
                             super.onAdShowedFullScreenContent();
                             mInterstitialAd_admob = null;
+                            isFullScreenShow = true;
                         }
 
                         @Override
@@ -73,6 +75,7 @@ public class Interstitial_Ads_Admob_Fb_Qureka_MultipleAds {
                             if (customProgressDialog.isShowing()) {
                                 customProgressDialog.dismiss();
                             }
+                            isFullScreenShow = false;
                             if (adCloseListener != null) {
                                 adCloseListener.onAdClosed();
                             }
@@ -93,12 +96,15 @@ public class Interstitial_Ads_Admob_Fb_Qureka_MultipleAds {
                     if (customProgressDialog.isShowing()) {
                         customProgressDialog.dismiss();
                     }
+                    isFullScreenShow = false;
+
                     com.facebook.ads.InterstitialAd fb_interstitial = new com.facebook.ads.InterstitialAd(source_class, preference.get_Facebook_Interstitial());
                     fb_interstitial.loadAd(
                             fb_interstitial.buildLoadAdConfig()
                                     .withAdListener(new InterstitialAdListener() {
                                         @Override
                                         public void onInterstitialDisplayed(Ad ad) {
+                                            isFullScreenShow = true;
                                         }
 
                                         @Override
@@ -106,6 +112,8 @@ public class Interstitial_Ads_Admob_Fb_Qureka_MultipleAds {
                                             if (customProgressDialog.isShowing()) {
                                                 customProgressDialog.dismiss();
                                             }
+                                            isFullScreenShow = false;
+
                                             if (adCloseListener != null) {
                                                 adCloseListener.onAdClosed();
                                             }
@@ -119,6 +127,7 @@ public class Interstitial_Ads_Admob_Fb_Qureka_MultipleAds {
                                             if (customProgressDialog.isShowing()) {
                                                 customProgressDialog.dismiss();
                                             }
+                                            isFullScreenShow = false;
                                             Interstitial_Qureka_Predchamp.Show_Qureka_Predchamp_Ads(source_class, adCloseListener);
                                             Constant.IS_TIME_INTERVAL = false;
                                             new Handler().postDelayed(() -> Constant.IS_TIME_INTERVAL = true, Long.parseLong(String.valueOf(preference.get_Ad_Time_Interval())) * 1000);
@@ -154,6 +163,5 @@ public class Interstitial_Ads_Admob_Fb_Qureka_MultipleAds {
                 adCloseListener.onAdClosed();
             }
         }
-
     }
 }

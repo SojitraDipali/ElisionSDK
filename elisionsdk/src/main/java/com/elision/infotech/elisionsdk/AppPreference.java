@@ -7,6 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 public class AppPreference {
 
     public String USER_PREFS = "USER PREFS";
@@ -53,6 +56,13 @@ public class AppPreference {
 
     String splash_flag = "splash_flag";
     String Splash_OpenApp_Id = "Splash_OpenApp_Id";
+    String textColor = "textColor";
+    String backColor = "backColor";
+    String backflag = "backflag";
+    String backclick = "backclick";
+    String native_type_list = "native_type_list";
+    String native_type_othe = "native_type_othe";
+    public static boolean isFullScreenShow = false;
 
     public AppPreference(Context context) {
         this.appSharedPref = context.getSharedPreferences(this.USER_PREFS, 0);
@@ -89,6 +99,93 @@ public class AppPreference {
         this.prefEditor.putString(this.Splash_OpenApp_Id, str).commit();
     }
 
+    public void StoreAllDataFromJSON(String response) throws JSONException {
+        JSONObject object = new JSONObject(response);
+        JSONArray jsonArray = new JSONArray(new JSONObject(object.getString("json_data")).getString("Data"));
+        set_Ad_Flag(jsonArray.getJSONObject(0).optString("Adflag"));
+        set_Ad_Time_Interval(jsonArray.getJSONObject(0).optString("Adtime"));
+        set_Adstyle(jsonArray.getJSONObject(0).optString("Adstyle"));
+        set_Ad_Status(jsonArray.getJSONObject(0).optString("Adstatus"));
+        set_Account(jsonArray.getJSONObject(0).optString("account"));
+        set_Privacy_Policy(jsonArray.getJSONObject(0).optString("pp"));
+        set_Qureka_Flag(jsonArray.getJSONObject(0).optString("qureka"));
+        set_Qureka_Link(jsonArray.getJSONObject(0).optString("qureka-link"));
+        set_Splash_Interstitial_Id(jsonArray.getJSONObject(0).optString("admob-splash"));
+        set_Admob_Interstitial_Id1(jsonArray.getJSONObject(0).optString("admob-full1"));
+        set_Admob_Interstitial_Id2(jsonArray.getJSONObject(0).optString("admob-full2"));
+        set_Admob_Interstitial_Id3(jsonArray.getJSONObject(0).optString("admob-full3"));
+        set_Admob_Native_Id1(jsonArray.getJSONObject(0).optString("admob-native1"));
+        set_Admob_Native_Id2(jsonArray.getJSONObject(0).optString("admob-native2"));
+        set_Admob_Native_Id3(jsonArray.getJSONObject(0).optString("admob-native3"));
+        set_Admob_Banner_Id1(jsonArray.getJSONObject(0).optString("admob-banner1"));
+        set_Admob_Banner_Id2(jsonArray.getJSONObject(0).optString("admob-banner2"));
+        set_Admob_Banner_Id3(jsonArray.getJSONObject(0).optString("admob-banner3"));
+        set_Admob_OpenApp_Id1(jsonArray.getJSONObject(0).optString("admob-open1"));
+        set_Admob_OpenApp_Id2(jsonArray.getJSONObject(0).optString("admob-open2"));
+        set_Admob_OpenApp_Id3(jsonArray.getJSONObject(0).optString("admob-open3"));
+        set_Click_Flag(jsonArray.getJSONObject(0).optString("clickflag"));
+        set_Click_Count(jsonArray.getJSONObject(0).optString("click"));
+        set_Splash_OpenApp_Id(jsonArray.getJSONObject(0).optString("admob-splash-open"));
+        set_splash_flag(jsonArray.getJSONObject(0).optString("splash"));
+        set_Facebook_Interstitial(jsonArray.getJSONObject(0).optString("fb-full"));
+        set_Facebook_Native(jsonArray.getJSONObject(0).optString("fb-native"));
+        set_Facebook_Banner(jsonArray.getJSONObject(0).optString("fb-banner"));
+        setAdbtcolor(jsonArray.getJSONObject(0).optString("adbtclr"));
+        setBackflag(jsonArray.getJSONObject(0).optString("backflag"));
+        setBackclick(jsonArray.getJSONObject(0).optString("backclick"));
+        setNativeTypeList(jsonArray.getJSONObject(0).optString("native_type_list"));
+        setNativeTypeOther(jsonArray.getJSONObject(0).optString("native_type_other"));
+        setBackcolor(jsonArray.getJSONObject(0).optString("backcolor", "ffffff"));
+        setTextColor(jsonArray.getJSONObject(0).optString("textcolor", "000000"));
+    }
+
+    public String getBackflag() {
+        return this.appSharedPref.getString(this.backflag, "");
+    }
+
+    public void setBackflag(String backflag) {
+        this.prefEditor.putString(this.backflag, backflag).commit();
+    }
+
+    public String getBackclick() {
+        return this.appSharedPref.getString(this.backclick, "");
+    }
+
+    public void setBackclick(String backclick) {
+        this.prefEditor.putString(this.backclick, backclick).commit();
+    }
+
+    public void setNativeTypeOther(String type) {
+        this.prefEditor.putString(this.native_type_othe, type).commit();
+    }
+
+    public String getNativeTypeList() {
+        return this.appSharedPref.getString(this.native_type_list, "");
+    }
+
+    public void setNativeTypeList(String type) {
+        this.prefEditor.putString(this.native_type_list, type).commit();
+    }
+
+    public String getNativeTypeOther() {
+        return this.appSharedPref.getString(this.native_type_othe, "");
+    }
+
+    public String getBackColor() {
+        return this.appSharedPref.getString(this.backColor, "");
+    }
+
+    public void setBackcolor(String str) {
+        this.prefEditor.putString(this.backColor, str).commit();
+    }
+
+    public String getTextColor() {
+        return this.appSharedPref.getString(this.textColor, "");
+    }
+
+    public void setTextColor(String str) {
+        this.prefEditor.putString(this.textColor, str).commit();
+    }
 
     public String get_Base_Url() {
         return this.appSharedPref.getString(this.Base_Url, "");

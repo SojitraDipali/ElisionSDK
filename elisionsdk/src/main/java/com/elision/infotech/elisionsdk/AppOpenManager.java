@@ -1,6 +1,7 @@
 package com.elision.infotech.elisionsdk;
 
 import static androidx.lifecycle.Lifecycle.Event.ON_START;
+import static com.elision.infotech.elisionsdk.AppPreference.isFullScreenShow;
 
 import android.app.Activity;
 import android.app.Application;
@@ -26,6 +27,7 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks, L
     private static final String LOG_TAG = "AppOpenManager";
     private AppOpenAd appOpenAd = null;
     private static boolean isShowingAd = false;
+    public static boolean isSplash = false;
     private long loadTime = 0;
     private Activity currentActivity;
     private final MyApplication myApplication;
@@ -96,6 +98,9 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks, L
     public void showAdIfAvailable() {
         // Only show ad if there is not already an app open ad currently showing
         // and an ad is available.
+        if (isFullScreenShow) {
+            return;
+        }
         if (!isShowingAd && isAdAvailable()) {
             Log.e(LOG_TAG, "Will show ad.");
 
@@ -170,8 +175,10 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks, L
 
     @OnLifecycleEvent(ON_START)
     public void onStart() {
-
-        showAdIfAvailable();
-        Log.d(LOG_TAG, "onStart");
+        if (isSplash) {
+            Log.d(LOG_TAG, "no open ad for splash");
+        } else {
+            showAdIfAvailable();
+        }
     }
 }
